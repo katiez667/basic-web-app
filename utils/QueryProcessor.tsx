@@ -18,6 +18,10 @@ export default function QueryProcessor(query: string): string {
   if (addMatch) {
     return String(Number(addMatch[1]) + Number(addMatch[2]));
   }
+  const minusMatch = query.match(/(\d+)\s*minus\s*(\d+)/i);
+  if (minusMatch) {
+    return String(Number(minusMatch[1]) - Number(minusMatch[2]));
+  }
   const largestMatch = query.match(/largest[^:]*:\s*([\d,\s]+)/i);
   if (largestMatch) {
     const numbers = largestMatch[1].split(",").map(n => Number(n.trim()));
