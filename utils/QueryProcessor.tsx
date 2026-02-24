@@ -14,28 +14,28 @@ export default function QueryProcessor(query: string): string {
   if (query.toLowerCase().includes("andrew id")) {
     return "mengyua3";
   }
-  const addMatch = query.match(/[\d]+(?:\s*plus\s*[\d]+)+/i);
-  if (addMatch) {
-    const numbers = addMatch[0].split(/\s*plus\s*/i).map(Number);
-    return String(numbers.reduce((a, b) => a + b, 0));
-  }
+  // const addMatch = query.match(/[\d]+(?:\s*plus\s*[\d]+)+/i);
+  // if (addMatch) {
+  //   const numbers = addMatch[0].split(/\s*plus\s*/i).map(Number);
+  //   return String(numbers.reduce((a, b) => a + b, 0));
+  // }
   const powerMatch = query.match(/(\d+)\s* to the power of\s*(\d+)/i);
   if (powerMatch) {
     return String(Number(powerMatch[1]) ** Number(powerMatch[2]));
   }
-  const minusMatch = query.match(/(\d+)\s*minus\s*(\d+)/i);
-  if (minusMatch) {
-    return String(Number(minusMatch[1]) - Number(minusMatch[2]));
-  }
+  // const minusMatch = query.match(/(\d+)\s*minus\s*(\d+)/i);
+  // if (minusMatch) {
+  //   return String(Number(minusMatch[1]) - Number(minusMatch[2]));
+  // }
   const largestMatch = query.match(/largest[^:]*:\s*([\d,\s]+)/i);
   if (largestMatch) {
     const numbers = largestMatch[1].split(",").map(n => Number(n.trim()));
     return String(Math.max(...numbers));
   }
-  const multMatch = query.match(/(\d+)\s*multiplied by\s*(\d+)/i);
-  if (multMatch) {
-    return String(Number(multMatch[1]) * Number(multMatch[2]));
-  }
+  // const multMatch = query.match(/(\d+)\s*multiplied by\s*(\d+)/i);
+  // if (multMatch) {
+  //   return String(Number(multMatch[1]) * Number(multMatch[2]));
+  // }
   const squareCubeMatch = query.match(/square and a cube[^:]*:\s*([\d,\s]+)/i);
   if (squareCubeMatch) {
     const numbers = squareCubeMatch[1].split(",").map(n => Number(n.trim()));
@@ -57,6 +57,20 @@ export default function QueryProcessor(query: string): string {
       return true;
     };
     return numbers.filter(isPrime).join(", ");
+  }
+  const mathMatch = query.match(/[\d]+(?:\s*(?:plus|minus|multiplied by|divided by)\s*[\d]+)+/i);
+  if (mathMatch) {
+    const tokens = mathMatch[0].split(/\s*(plus|minus|multiplied by|divided by)\s*/i);
+    let result = Number(tokens[0]);
+    for (let i = 1; i < tokens.length; i += 2) {
+      const op = tokens[i].toLowerCase();
+      const num = Number(tokens[i + 1]);
+      if (op === "plus") result += num;
+      else if (op === "minus") result -= num;
+      else if (op === "multiplied by") result *= num;
+      else if (op === "divided by") result /= num;
+    }
+    return String(result);
   }
 
 

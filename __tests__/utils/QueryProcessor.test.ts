@@ -66,5 +66,10 @@ describe("QueryProcessor", () => {
     const query = "What is 2 to the power of 3?";
     const response: string = QueryProcessor(query);
     expect(response).toBe("8");
+    });
+    test('should handle combination of operations', () => {
+    const query = "What is 32 multiplied by 50 plus 95?";
+    const response: string = QueryProcessor(query);
+    expect(response).toBe("1695");
     })
 })
