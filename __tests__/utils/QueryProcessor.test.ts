@@ -46,6 +46,11 @@ describe("QueryProcessor", () => {
     const query = "What is 28 multiplied by 64?";
     const response: string = QueryProcessor(query);
     expect(response).toBe("1792");
+    });
+    test('should return number that is both a square and a cube', () => {
+    const query = "Which of the following numbers is both a square and a cube: 4096, 4856, 2040, 1728, 3136, 2244, 4071?";
+    const response: string = QueryProcessor(query);
+    expect(response).toBe("4096");
     })
 });
 

@@ -27,6 +27,16 @@ export default function QueryProcessor(query: string): string {
   if (multMatch) {
     return String(Number(multMatch[1]) * Number(multMatch[2]));
   }
+  const squareCubeMatch = query.match(/square and a cube[^:]*:\s*([\d,\s]+)/i);
+  if (squareCubeMatch) {
+    const numbers = squareCubeMatch[1].split(",").map(n => Number(n.trim()));
+    const result = numbers.find(n => {
+      const sqrt = Math.round(Math.sqrt(n));
+      const cbrt = Math.round(Math.cbrt(n));
+      return sqrt * sqrt === n && cbrt * cbrt * cbrt === n;
+    });
+    return String(result ?? "");
+  }
 
 
   return "";
