@@ -52,5 +52,10 @@ describe("QueryProcessor", () => {
     const response: string = QueryProcessor(query);
     expect(response).toBe("4096");
     })
+    test('should return prime numbers from list', () => {
+    const query = "Which of the following numbers are primes: 17, 30, 86, 7, 69?";
+    const response: string = QueryProcessor(query);
+    expect(response).toBe("17, 7");
+});
 });
 

@@ -37,6 +37,18 @@ export default function QueryProcessor(query: string): string {
     });
     return String(result ?? "");
   }
+  const primesMatch = query.match(/which of the following numbers are primes[^:]*:\s*([\d,\s]+)/i);
+  if (primesMatch) {
+    const numbers = primesMatch[1].split(",").map(n => Number(n.trim()));
+    const isPrime = (n: number) => {
+      if (n < 2) return false;
+      for (let i = 2; i <= Math.sqrt(n); i++) {
+        if (n % i === 0) return false;
+      }
+      return true;
+    };
+    return numbers.filter(isPrime).join(", ");
+  }
 
 
   return "";
