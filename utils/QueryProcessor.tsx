@@ -14,9 +14,10 @@ export default function QueryProcessor(query: string): string {
   if (query.toLowerCase().includes("andrew id")) {
     return "mengyua3";
   }
-  const addMatch = query.match(/(\d+)\s*plus\s*(\d+)/i);
+  const addMatch = query.match(/[\d]+(?:\s*plus\s*[\d]+)+/i);
   if (addMatch) {
-    return String(Number(addMatch[1]) + Number(addMatch[2]));
+    const numbers = addMatch[0].split(/\s*plus\s*/i).map(Number);
+    return String(numbers.reduce((a, b) => a + b, 0));
   }
   const powerMatch = query.match(/(\d+)\s* to the power of\s*(\d+)/i);
   if (powerMatch) {
