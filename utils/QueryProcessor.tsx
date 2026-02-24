@@ -23,6 +23,10 @@ export default function QueryProcessor(query: string): string {
     const numbers = largestMatch[1].split(",").map(n => Number(n.trim()));
     return String(Math.max(...numbers));
   }
+  const multMatch = query.match(/(\d+)\s*multiplied by\s*(\d+)/i);
+  if (multMatch) {
+    return String(Number(multMatch[1]) * Number(multMatch[2]));
+  }
 
 
   return "";

@@ -41,26 +41,11 @@ describe("QueryProcessor", () => {
     const query = "Which of the following numbers is the largest: 28, 62, 84?";
     const response: string = QueryProcessor(query);
     expect(response).toBe("84");
+    });
+    test('should return the product', () => {
+    const query = "What is 28 multiplied by 64?";
+    const response: string = QueryProcessor(query);
+    expect(response).toBe("1792");
     })
-    // test('should return andrew id', () => {
-    //     const query = "What is your andrew id?";
-    //     const response: string = QueryProcessor(query);
-    //     expect(response).toBe((
-    //         "mengyua3"
-    //       ));
-    // })
-    // test('should return andrew id', () => {
-    //     const query = "What is your andrew id?";
-    //     const response: string = QueryProcessor(query);
-    //     expect(response).toBe((
-    //         "mengyua3"
-    //       ));
-    // })
-    // test('should return andrew id', () => {
-    //     const query = "What is your andrew id?";
-    //     const response: string = QueryProcessor(query);
-    //     expect(response).toBe((
-    //         "mengyua3"
-    //       ));
-    // })
 });
+
