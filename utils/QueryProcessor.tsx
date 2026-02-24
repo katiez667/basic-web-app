@@ -58,19 +58,58 @@ export default function QueryProcessor(query: string): string {
     };
     return numbers.filter(isPrime).join(", ");
   }
-  const mathMatch = query.match(/[\d]+(?:\s*(?:plus|minus|multiplied by|divided by)\s*[\d]+)+/i);
+  const mathMatch = query.match(/[\d]+(?:\s*(?:plus|minus|multiplied by|divided by|to the power of)\s*[\d]+)+/i);
   if (mathMatch) {
-    const tokens = mathMatch[0].split(/\s*(plus|minus|multiplied by|divided by)\s*/i);
-    let result = Number(tokens[0]);
-    for (let i = 1; i < tokens.length; i += 2) {
-      const op = tokens[i].toLowerCase();
-      const num = Number(tokens[i + 1]);
-      if (op === "plus") result += num;
-      else if (op === "minus") result -= num;
-      else if (op === "multiplied by") result *= num;
-      else if (op === "divided by") result /= num;
+    const tokens = mathMatch[0].split(/\s*(plus|minus|multiplied by|divided by|to the power of)\s*/i);
+    const numbers = tokens.filter((_, i) => i % 2 === 0).map(Number);
+    const ops = tokens.filter((_, i) => i % 2 === 1).map(s => s.toLowerCase());
+
+    // First pass: power
+    for (let i = 0; i < ops.length; i++) {
+      if (ops[i] === "to the power of") {
+        numbers[i] = Math.pow(numbers[i], numbers[i + 1]);
+        numbers.splice(i + 1, 1);
+        ops.splice(i, 1);
+        i--;
+      }
     }
-    return String(result);
+
+    // Second pass: multiply and divide
+    for (let i = 0; i < ops.length; i++) {
+      if (ops[i] === "multiplied by" || ops[i] === "divided by") {
+        numbers[i] = ops[i] === "multiplied by" ? numbers[i] * numbers[i + 1] : numbers[i] / numbers[i + 1];
+        numbers.splice(i + 1, 1);
+        ops.splice(i, 1);
+        i--;
+      }
+    }
+
+    // Third pass: plus and minus
+    for (let i = 0; i < ops.length; i++) {
+      if (ops[i] === "plus" || ops[i] === "minus") {
+        numbers[i] = ops[i] === "plus" ? numbers[i] + numbers[i + 1] : numbers[i] - numbers[i + 1];
+        numbers.splice(i + 1, 1);
+        ops.splice(i, 1);
+        i--;
+      }
+    }
+
+    return String(numbers[0]);
+  }
+  const scrabbleMatch = query.match(/scrabble score of (\w+)/i);
+  if (scrabbleMatch) {
+    const scores: Record<string, number> = {
+      a:1, e:1, i:1, o:1, u:1, l:1, n:1, s:1, t:1, r:1,
+      d:2, g:2,
+      b:3, c:3, m:3, p:3,
+      f:4, h:4, v:4, w:4, y:4,
+      k:5,
+      j:8, x:8,
+      q:10, z:10
+    };
+    const word = scrabbleMatch[1].toLowerCase();
+    const score = word.split("").reduce((sum, c) => sum + (scores[c] ?? 0), 0);
+    return String(score);
   }
 
 

@@ -71,5 +71,15 @@ describe("QueryProcessor", () => {
     const query = "What is 32 multiplied by 50 plus 95?";
     const response: string = QueryProcessor(query);
     expect(response).toBe("1695");
+    });
+    test('should handle power operation', () => {
+    const query = "What is 2 to the power of 10?";
+    const response: string = QueryProcessor(query);
+    expect(response).toBe("1024");
+    });
+    test('should return scrabble score of a word', () => {
+    const query = "What is the scrabble score of banana?";
+    const response: string = QueryProcessor(query);
+    expect(response).toBe("8");
     })
 })
