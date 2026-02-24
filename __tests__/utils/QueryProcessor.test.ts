@@ -31,5 +31,38 @@ describe("QueryProcessor", () => {
         expect(response).toBe((
             "mengyua3"
           ));
-    })
+    });
+    test('should return sum for addition query', () => {
+    const query = "What is 88 plus 87?";
+    const response: string = QueryProcessor(query);
+    expect(response).toBe("175");
+    });
+    // test('should return andrew id', () => {
+    //     const query = "What is your andrew id?";
+    //     const response: string = QueryProcessor(query);
+    //     expect(response).toBe((
+    //         "mengyua3"
+    //       ));
+    // })
+    // test('should return andrew id', () => {
+    //     const query = "What is your andrew id?";
+    //     const response: string = QueryProcessor(query);
+    //     expect(response).toBe((
+    //         "mengyua3"
+    //       ));
+    // })
+    // test('should return andrew id', () => {
+    //     const query = "What is your andrew id?";
+    //     const response: string = QueryProcessor(query);
+    //     expect(response).toBe((
+    //         "mengyua3"
+    //       ));
+    // })
+    // test('should return andrew id', () => {
+    //     const query = "What is your andrew id?";
+    //     const response: string = QueryProcessor(query);
+    //     expect(response).toBe((
+    //         "mengyua3"
+    //       ));
+    // })
 });
