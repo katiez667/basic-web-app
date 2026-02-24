@@ -51,11 +51,20 @@ describe("QueryProcessor", () => {
     const query = "Which of the following numbers is both a square and a cube: 4096, 4856, 2040, 1728, 3136, 2244, 4071?";
     const response: string = QueryProcessor(query);
     expect(response).toBe("4096");
-    })
+    });
     test('should return prime numbers from list', () => {
     const query = "Which of the following numbers are primes: 17, 30, 86, 7, 69?";
     const response: string = QueryProcessor(query);
     expect(response).toBe("17, 7");
-});
-});
-
+    });
+    test('should return difference for subtraction query', () => {
+    const query = "What is 88 minus 87?";
+    const response: string = QueryProcessor(query);
+    expect(response).toBe("1");
+    });
+    test('should return power for power query', () => {
+    const query = "What is 2 to the power of 3?";
+    const response: string = QueryProcessor(query);
+    expect(response).toBe("8");
+    })
+})

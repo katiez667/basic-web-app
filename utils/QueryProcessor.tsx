@@ -18,6 +18,10 @@ export default function QueryProcessor(query: string): string {
   if (addMatch) {
     return String(Number(addMatch[1]) + Number(addMatch[2]));
   }
+  const powerMatch = query.match(/(\d+)\s* to the power of\s*(\d+)/i);
+  if (powerMatch) {
+    return String(Number(powerMatch[1]) ** Number(powerMatch[2]));
+  }
   const minusMatch = query.match(/(\d+)\s*minus\s*(\d+)/i);
   if (minusMatch) {
     return String(Number(minusMatch[1]) - Number(minusMatch[2]));
